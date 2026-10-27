@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- GitHub Pages sends no headers, so the page's own rule is here: only this app's files, nothing from elsewhere. Keep it. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Counter</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<main>
+  <p id="count" class="count" aria-live="polite">…</p>
+  <p id="who" class="note"></p>
+  <button id="add" type="button" disabled>Add one</button>
+  <p id="problem" class="error" role="alert" hidden></p>
+</main>
+</body>
+</html>

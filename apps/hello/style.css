@@ -1,0 +1,8 @@
+:root { --bg: #FAF7F1; --text: #1F1E1C; --line: #D9D3C7; color-scheme: light; }
+:root[data-theme="dark"] { --bg: #1F1E1C; --text: #FAF7F1; --line: #45423D; color-scheme: dark; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); font: 16px/24px system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { min-height: 100%; display: grid; place-content: center; justify-items: center; gap: 20px; padding: 24px; box-sizing: border-box; text-align: center; }
+.greeting { margin: 0; font-size: 32px; line-height: 40px; font-weight: 600; }
+button { min-height: 44px; padding: 0 28px; border-radius: 10px; border: 1px solid var(--text); background: var(--text); color: var(--bg); font: 600 16px/20px inherit; cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: default; }

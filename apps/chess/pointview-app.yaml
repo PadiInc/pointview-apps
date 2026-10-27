@@ -1,0 +1,23 @@
+# Chess for Pointview: a game of chess between two people, played on their
+# home page. Pointview reads this file when someone adds the app (the chess
+# note, "Chess as a Pointview app"); the store lists it from here.
+pointview_app: 1
+id: io.padi.chess
+name: "Chess"
+summary: "A game of chess between the two of you"
+about: "Play a game of chess with the other person in this conversation, move by move, whenever you each have a moment. The board is drawn on your own device, and every move travels end-to-end encrypted in your conversation, so Pointview never sees the game. Offer a draw, accept one or resign; Pointview tells the other person when it's their move."
+keywords: [chess, game, board-game, two-player]
+icon: "icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+launch: "https://padiinc.github.io/pointview-apps/apps/chess/"
+notification: "Your move"
+# For the conversation's AI, which reads the latest state of every app here.
+ai_context: "One game of chess between the two people here. The state is the whole game so far: white and black are the two players' ids in this app; moves lists every move from the start in standard algebraic notation (e4, Nf3, O-O); event is what just happened (start, move, offer-draw, accept-draw or resign) and by is who did it; drawOffer is who has offered a draw, if anyone; result is null while the game goes on, else the winner's id (null for a draw) and how it ended. White moves first, so it is white's turn when the number of moves is even."
+fits:
+  people: true
+  groups: false
+connections:
+  - profile: "padi.test.app.chess"
+    role: consumer

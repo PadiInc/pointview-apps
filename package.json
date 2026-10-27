@@ -1,0 +1,14 @@
+{
+  "name": "pointview-apps",
+  "private": true,
+  "type": "module",
+  "description": "The apps in Pointview's store: one folder each, checked and listed by GitHub.",
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "build": "node tools/build-index.mjs",
+    "test": "node --test tools/*.test.mjs"
+  },
+  "dependencies": {
+    "yaml": "2.9.1"
+  }
+}

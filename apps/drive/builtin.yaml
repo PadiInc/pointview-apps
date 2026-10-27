@@ -1,0 +1,18 @@
+# The Google Drive app's entry in the store. Its code and its own YAML stay in
+# Pointview (view: google-drive): Google's page needs its own cookies, which a
+# sandboxed frame can't give it. Each Pointview reads the real YAML from
+# itself, at `path`. In the Add dialog it's the Google Drive documents button.
+pointview_builtin: 1
+id: io.padi.drive
+name: "Google Drive"
+summary: "Add documents from Google Drive, for everyone here to view or edit"
+about: "Pick a document from your own Google Drive and it becomes a tile here, shown to everyone in Display or Edit. Google shows the document itself; Pointview keeps only which file it is, its title and how it's shared."
+keywords: [google, drive, documents, docs, sheets, slides, pdf]
+icon: "icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+path: "/apps/drive/drive.yaml"
+fits:
+  people: true
+  groups: true

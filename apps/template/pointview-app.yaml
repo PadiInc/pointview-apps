@@ -1,0 +1,31 @@
+# A template for a Pointview app. Copy this folder, rename it, and change
+# every line marked CHANGE. The step-by-step guide is the README at the top of
+# the repository; the full details of how apps talk to Pointview are at
+# https://pointview.com/POINTVIEW.md
+#
+# Rules Pointview applies (and the check on every pull request):
+#   - free text is in double quotes, so "no" or "1.0" stays text;
+#   - unknown keys are ignored; a missing required key refuses the file;
+#   - the file is at most 16 KB.
+pointview_app: 1                      # the format version: always 1
+id: io.example.counter                # CHANGE: a dotted name you own, such as com.yourcompany.yourapp
+name: "Counter"                       # CHANGE: up to 40 characters, shown on the tile and in the store
+summary: "A number everyone here can add one to"   # CHANGE: one line, up to 140 characters
+about: "A sample app to copy: everyone in the conversation sees the same number, and anyone can add one. It shows the messages an app sends and gets in Pointview."   # CHANGE: the store's paragraph, up to 1,000 characters
+keywords: [sample, template, counter] # CHANGE: up to 10 lower-case words for search
+icon: "icon.png"                      # CHANGE: a square PNG in this folder, at least 128 pixels
+publisher:
+  name: "Example"                     # CHANGE: you or your organisation
+  contact: "apps@example.com"         # CHANGE: where people can reach you
+# CHANGE: your page, in your app's own folder on the store's GitHub Pages:
+launch: "https://padiinc.github.io/pointview-apps/apps/template/"
+# What a notification says when the app wakes someone (optional, up to 40 characters).
+notification: "The count went up"
+fits:
+  people: true                        # two people's conversations
+  groups: true                        # groups (up to 50 people)
+# The Connection Profiles the app uses, each as a consumer or a provider.
+# CHANGE: name your app's own profile; see POINTVIEW.md, "Connection Profiles".
+connections:
+  - profile: "padi.test.app.counter"
+    role: consumer

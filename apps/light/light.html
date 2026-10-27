@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- GitHub Pages sends no headers, so the page's own rule is here: only this app's files, nothing from elsewhere. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Light</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="light.js"></script>
+</head>
+<body>
+<main>
+  <p id="opening" class="note">Opening the Light…</p>
+  <p id="notHere" class="note" hidden></p>
+  <p id="problem" class="error" role="alert" hidden></p>
+  <p id="otherEnd" class="note" hidden>You're a Switch in this conversation. Each person is one end here: a Switch or a Light.</p>
+
+  <!-- This person's Light: on when any of its switches is on. -->
+  <section id="panel" hidden>
+    <h1 id="label"></h1>
+    <div id="bulb" class="bulb" role="img" aria-label="The light is off"></div>
+    <p id="summary" class="status" role="status" aria-live="polite"></p>
+    <section id="linksBox" class="links-box" hidden>
+      <h2>Switches</h2>
+      <ul id="links" class="links"></ul>
+    </section>
+    <div id="labelForm" class="label-form">
+      <label for="labelInput">Name of this light</label>
+      <span class="row"><input id="labelInput" maxlength="40" autocomplete="off"><button id="labelSave" type="button">Save</button></span>
+    </div>
+    <p class="error" id="error" role="alert"></p>
+  </section>
+
+  <p id="security" class="security" role="status" hidden></p>
+  <details class="realm">
+    <summary>What Arete sees</summary>
+    <table><tbody id="rawRows"></tbody></table>
+    <p id="rawEmpty" class="note">Nothing on the realm yet.</p>
+  </details>
+</main>
+</body>
+</html>

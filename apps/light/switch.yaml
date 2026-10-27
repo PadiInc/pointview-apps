@@ -1,0 +1,21 @@
+# The Switch, for Pointview: one end of padi.light, the Profile published on
+# the CNS/CP Registry for a controller and a light (the Switch and Light note).
+# Add it to a conversation (two people or a group) from the store,
+# with the Light (light.yaml). Opening it makes you a Switch there.
+pointview_app: 1
+id: io.padi.switch
+name: "Switch"
+summary: "Turns on the Lights of the people here, over padi.light connections"
+about: "Be a Switch in this conversation: turn the Lights of the people here on and off, each over its own padi.light connection on the CNS/CP network. The values are sealed on your devices before they leave them. Add it together with the Light."
+keywords: [switch, light, cns-cp, connection, demo]
+icon: "switch-icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+launch: "https://padiinc.github.io/pointview-apps/apps/light/switch.html"
+fits:
+  people: true
+  groups: true
+connections:
+  - profile: "padi.light"
+    role: provider
