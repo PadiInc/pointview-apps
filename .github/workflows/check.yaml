@@ -1,0 +1,21 @@
+name: Check
+
+# Every pull request: each app's YAML by Pointview's rules, each icon, no id
+# used twice, and the tools' own tests. Nothing is published from here.
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm test
+      - run: npm run check

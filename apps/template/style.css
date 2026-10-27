@@ -1,0 +1,11 @@
+/* Pointview's colours, light and dark: the app follows the theme Pointview tells it (app.js). */
+:root { --bg: #FAF7F1; --text: #1F1E1C; --text-2: #6B665E; --error: #B3261E; color-scheme: light; }
+:root[data-theme="dark"] { --bg: #1F1E1C; --text: #FAF7F1; --text-2: #B5AFA4; --error: #F2B8B5; color-scheme: dark; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); font: 16px/24px system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { min-height: 100%; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 24px; box-sizing: border-box; text-align: center; }
+.count { margin: 0; font-size: 56px; line-height: 64px; font-weight: 700; }
+.note { margin: 0; color: var(--text-2); font-size: 14px; }
+.error { margin: 0; color: var(--error); font-size: 14px; }
+button { min-height: 44px; padding: 0 24px; border-radius: 10px; border: 1px solid var(--text); background: var(--text); color: var(--bg); font: 600 16px/20px inherit; cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: default; }

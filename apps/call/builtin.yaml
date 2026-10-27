@@ -1,0 +1,18 @@
+# The Video Call app's entry in the store. Its code and its own YAML stay in
+# Pointview (view: video-call): a sandboxed frame can't use the camera or
+# microphone. Each Pointview reads the real YAML from itself, at `path`.
+pointview_builtin: 1
+id: io.padi.call
+name: "Video call"
+summary: "A live video or audio call for everyone here"
+about: "A call for the people in this group or conversation, inside Pointview: the Video Call tab, then Join. Being here is what lets you in, up to 25 at once. Every call is end-to-end encrypted with a key each device works out from the conversation's own encryption; the service carrying the call knows people only by a random id."
+keywords: [call, video, audio, meeting, livekit]
+icon: "icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@pointview.com"
+path: "/apps/call/call.yaml"
+fits:
+  people: true
+  groups: true
+  max_members: 50

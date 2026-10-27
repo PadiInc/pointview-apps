@@ -1,0 +1,25 @@
+# Hello, for Pointview: the first app a group can have as its Home (Group as
+# an App, Hello Prototype Plan). A box with a button: pressing it asks
+# Pointview for your name and says hello. Pointview answers only because this
+# file declares the profile that carries a name, and only with that one field.
+#
+# The profile is a placeholder until the real one is chosen (the plan's open
+# question): padi.test.hello.name, field displayName.
+pointview_app: 1
+id: io.padi.hello
+name: "Hello"
+summary: "Says hello to whoever presses its button, by name"
+about: "The smallest app that can be a group's Home. Press Hello and it asks Pointview for your name, which Pointview gives only because this app declares the profile that carries it. Without that, it just says Hello, there. It's here to show how apps get exactly what their profiles allow, and nothing else."
+keywords: [hello, example, home, profile, demo]
+icon: "icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+launch: "https://padiinc.github.io/pointview-apps/apps/hello/"
+group_home: true
+fits:
+  people: false
+  groups: true
+connections:
+  - profile: "padi.test.hello.name"
+    role: consumer

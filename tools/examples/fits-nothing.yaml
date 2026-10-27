@@ -1,0 +1,13 @@
+pointview_app: 1
+id: io.example.good
+name: "Good"
+summary: "A good app"
+publisher:
+  name: "Example"
+launch: "https://padiinc.github.io/pointview-apps/apps/good/"
+fits:
+  people: false
+  groups: false
+connections:
+  - profile: "padi.test.app.good"
+    role: consumer

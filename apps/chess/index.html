@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- GitHub Pages sends no headers, so the page's own rule is here: only this app's files, nothing from elsewhere. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chess</title>
+  <link rel="stylesheet" href="vendor/cm-chessboard/assets/chessboard.css">
+  <link rel="stylesheet" href="vendor/cm-chessboard/assets/extensions/markers/markers.css">
+  <link rel="stylesheet" href="vendor/cm-chessboard/assets/extensions/promotion-dialog/promotion-dialog.css">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<main>
+  <p id="opening" class="note">Opening chess…</p>
+  <p id="notHere" class="note" hidden></p>
+
+  <!-- No game going: choose a colour and start. -->
+  <section id="setup" class="setup" aria-labelledby="setupTitle" hidden>
+    <h1 id="setupTitle">Play chess with <span id="otherName"></span></h1>
+    <p class="note" id="lastResult" hidden></p>
+    <fieldset>
+      <legend>You play</legend>
+      <label><input type="radio" name="colour" value="w" checked> White</label>
+      <label><input type="radio" name="colour" value="b"> Black</label>
+      <label><input type="radio" name="colour" value="random"> Either, at random</label>
+    </fieldset>
+    <div class="actions">
+      <button id="start" class="primary" type="button">Start the game</button>
+      <button id="setupCancel" type="button" hidden>Back to the last game</button>
+    </div>
+    <p class="error" id="setupError" role="alert"></p>
+    <p class="note">Moves go to <span class="otherName"></span> end-to-end encrypted, inside your Pointview conversation. Neither Pointview nor this app's host sees the board.</p>
+  </section>
+
+  <!-- The game. -->
+  <section id="play" class="play" aria-label="The game" hidden>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <div id="confirm" class="confirm" hidden>
+      <span id="confirmText"></span>
+      <div class="actions">
+        <button id="confirmYes" class="primary" type="button">Play it</button>
+        <button id="confirmNo" type="button">Take it back</button>
+      </div>
+    </div>
+
+    <div id="drawOffered" class="offer" hidden>
+      <span id="drawText"></span>
+      <div class="actions"><button id="acceptDraw" class="primary" type="button">Accept the draw</button></div>
+    </div>
+
+    <div id="ask" class="confirm" hidden>
+      <span>Resign this game?</span>
+      <div class="actions">
+        <button id="resignYes" class="danger" type="button">Resign</button>
+        <button id="resignNo" type="button">Keep playing</button>
+      </div>
+    </div>
+
+    <p class="player top"><span class="dot" id="topDot" aria-hidden="true"></span><span id="topName"></span></p>
+    <div id="board" class="board"></div>
+    <p class="player bottom"><span class="dot" id="bottomDot" aria-hidden="true"></span><span id="bottomName"></span></p>
+
+    <div id="actions" class="actions">
+      <button id="offerDraw" type="button">Offer a draw</button>
+      <button id="resign" type="button">Resign</button>
+      <button id="newGame" class="primary" type="button" hidden>New game</button>
+    </div>
+    <p class="error" id="error" role="alert"></p>
+
+    <details class="moves">
+      <summary>Moves</summary>
+      <ol id="moveList"></ol>
+    </details>
+  </section>
+
+  <footer class="credit">
+    Pieces: Wikimedia Commons standard set by Cburnett, CC BY-SA 3.0. Board: cm-chessboard, MIT. Rules: chess.js, BSD-2-Clause.
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "about": "Shared cases: each YAML here, and whether Pointview accepts it (and, if not, the start of what it says). The apps repo's check and Pointview's parser must give the same answer for every case. A relative launch is the one difference: Pointview accepts it for its own built-in apps only, the store never.",
+  "cases": [
+    { "file": "good-app.yaml", "ok": true },
+    { "file": "settings.yaml", "ok": true },
+    { "file": "unquoted-name.yaml", "ok": false, "detail": "name must be quoted text" },
+    { "file": "wrong-format.yaml", "ok": false, "detail": "pointview_app must be 1" },
+    { "file": "relative-launch.yaml", "ok": false, "detail": "launch must be a quoted https address", "pointviewBuiltIn": true },
+    { "file": "http-launch.yaml", "ok": false, "detail": "launch must be a quoted https address" },
+    { "file": "fits-nothing.yaml", "ok": false, "detail": "the app must fit people, groups or both" },
+    { "file": "bad-role.yaml", "ok": false, "detail": "each connection's role must be provider or consumer" },
+    { "file": "view.yaml", "ok": false, "detail": "view is only for an app Pointview serves" }
+  ]
+}
