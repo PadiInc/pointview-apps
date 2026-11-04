@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- GitHub Pages sends no headers, so the page's own rule is here: only its own files. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room light</title>
+<link rel="stylesheet" href="bulb.css">
+</head>
+<body>
+<!--
+  The room's light (the Boardroom Light plan, 4 Nov): not an app you add, but
+  the part of the Boardroom app that shows the room's one light. It sits inside
+  Zoho Creator's Boardroom page, as an Embed snippet, and speaks for the
+  Boardroom app to the Pointview page around it. The light is the group's:
+  every member's open tab shows the same one, and a Switch in the group turns
+  it on. Pointview seals and opens the values on the device; this page only
+  sees "on" or "off".
+-->
+<main>
+  <div id="bulb" class="bulb" role="img" aria-label="The room's light is off"></div>
+  <div class="words">
+    <p id="title" class="title">The room's light</p>
+    <p id="summary" class="summary" role="status" aria-live="polite">Opening…</p>
+  </div>
+</main>
+<script src="bulb.js"></script>
+</body>
+</html>

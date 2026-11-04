@@ -20,7 +20,10 @@ Test pages that aren't apps live in `labs/`. They're published beside the
 apps, at `https://padiinc.github.io/pointview-apps/labs/<name>/`, but have no
 YAML and are never in the store. The first is `labs/nested-probe`: put inside
 another site's page that Pointview frames (Zoho's Boardroom page), it shows
-where it finds itself and says hello up to Pointview.
+where it finds itself and says hello up to Pointview. The second is
+`labs/room-bulb`, the Boardroom's light: embedded in Zoho's Boardroom page, it
+speaks for the Boardroom app and shows the room's one light, which a Switch in
+the group turns on.
 
 ## How an app works in Pointview
 
