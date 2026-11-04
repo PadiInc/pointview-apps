@@ -20,6 +20,8 @@ if (problems.length) {
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
 await cp(join(root, 'apps'), join(out, 'apps'), { recursive: true });
+// Test pages that aren't apps (labs/): published as they are, never in the store's list.
+await cp(join(root, 'labs'), join(out, 'labs'), { recursive: true }).catch((e) => { if (e.code !== 'ENOENT') throw e; });
 // Published as files: no Jekyll, which would skip some names.
 await writeFile(join(out, '.nojekyll'), '');
 await writeFile(join(out, 'index.json'), JSON.stringify({ format: 1, base: PAGES_BASE, apps: entries }, null, 2) + '\n');

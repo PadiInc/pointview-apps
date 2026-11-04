@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'">
+<title>Nested frame probe</title>
+<link rel="stylesheet" href="probe.css">
+</head>
+<body>
+<!--
+  A test page, not an app (Zoho demo, 4 Nov). Put inside another site's page
+  (Zoho Creator's Boardroom page, as an Embed snippet) that Pointview shows in
+  an app's frame, it reports where it finds itself, and says hello up the chain
+  so we can see whether a frame nested in an app's frame can reach Pointview.
+-->
+<p class="title">Nested frame probe</p>
+<dl id="facts"></dl>
+<p><button id="again" type="button">Say hello again</button> <span id="sent"></span></p>
+<script src="probe.js"></script>
+</body>
+</html>
