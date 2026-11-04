@@ -1,0 +1,6 @@
+body { margin: 0; padding: 12px 16px; font: 14px/1.4 system-ui, sans-serif; color: #1F1E1C; background: #FFF8E6; }
+.title { margin: 0 0 8px; font-weight: 600; }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 0 0 8px; }
+dt { color: #6b665e; }
+dd { margin: 0; word-break: break-all; }
+button { font: inherit; padding: 4px 10px; }

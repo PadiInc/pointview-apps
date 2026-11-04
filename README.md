@@ -16,6 +16,12 @@ Pointview as soon as it's merged, without a Pointview release.
 | Google Drive | [`apps/drive`](apps/drive) | Listed here; built into Pointview. |
 | Template | [`apps/template`](apps/template) | A working sample to copy. Not listed in the store. |
 
+Test pages that aren't apps live in `labs/`. They're published beside the
+apps, at `https://padiinc.github.io/pointview-apps/labs/<name>/`, but have no
+YAML and are never in the store. The first is `labs/nested-probe`: put inside
+another site's page that Pointview frames (Zoho's Boardroom page), it shows
+where it finds itself and says hello up to Pointview.
+
 ## How an app works in Pointview
 
 An app is a web page that Pointview shows in a sandboxed frame on a group's
