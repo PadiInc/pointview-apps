@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Only this app's own files, nothing from elsewhere. Keep it. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello World: Responder</title>
+  <style>
+    :root { color-scheme: light; --ink: #1F1E1C; --soft: #6b665e; --paper: #FAF7F1; --line: #e5e0d6; --ochre: #B8862F; }
+    :root[data-theme="dark"] { color-scheme: dark; --ink: #EDE9E1; --soft: #a39d92; --paper: #1B1A18; --line: #34312c; }
+    body { margin: 0; padding: 20px; font: 16px/1.5 system-ui, sans-serif; color: var(--ink); background: var(--paper); }
+    ul { list-style: none; padding: 0; margin: 0; } li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .row { display: flex; gap: 8px; margin-top: 6px; }
+    input { flex: 1; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: inherit; }
+    button { font: inherit; padding: 8px 16px; border: 0; border-radius: 8px; background: var(--ochre); color: #fff; }
+    #problem { color: #b3261e; }
+  </style>
+  <script type="module" src="responder.js"></script>
+</head>
+<body>
+  <h2>Messages</h2>
+  <ul id="messages"></ul>
+  <template id="row"><li><div class="from"></div><div class="row"><input maxlength="280" aria-label="Reply"><button type="button">Reply</button></div></li></template>
+  <p id="problem" role="alert"></p>
+</body>
+</html>

@@ -20,6 +20,8 @@ if (problems.length) {
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
 await cp(join(root, 'apps'), join(out, 'apps'), { recursive: true });
+// Pointview's app library (sdk/pointview.js), which apps load from beside them.
+await cp(join(root, 'sdk'), join(out, 'sdk'), { recursive: true });
 // Test pages that aren't apps (labs/): published as they are, never in the store's list.
 await cp(join(root, 'labs'), join(out, 'labs'), { recursive: true }).catch((e) => { if (e.code !== 'ENOENT') throw e; });
 // Published as files: no Jekyll, which would skip some names.

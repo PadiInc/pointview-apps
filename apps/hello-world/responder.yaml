@@ -1,0 +1,20 @@
+# Hello World: the Responder. The other side of hello.world, a Connection
+# Profile published on the CNS/CP Registry (https://cp.cnscp.io/hello.world).
+pointview_app: 1
+id: io.padi.hello-world.responder
+name: "Hello World: Responder"
+summary: "Shows the messages the Initiators here send, and answers each one"
+about: "The consumer side of hello.world. It shows the message from everyone here who opened Hello World: Initiator, and sends a reply to each of them on its own. A worked example of an app on a Connection Profile; its code is a few lines. Add it together with Hello World: Initiator."
+keywords: [hello, cns-cp, connection, example, developer]
+icon: "responder-icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+launch: "https://padiinc.github.io/pointview-apps/apps/hello-world/responder.html"
+fits:
+  people: true
+  groups: true
+# The one line that ties the app to CNS/CP: which profile, and which side of it.
+connections:
+  - profile: "hello.world"
+    role: consumer

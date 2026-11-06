@@ -12,6 +12,7 @@ Pointview as soon as it's merged, without a Pointview release.
 | Chess | [`apps/chess`](apps/chess) | A game of chess between two people. |
 | Light and Switch | [`apps/light`](apps/light) | The two ends of the `padi.light` Connection Profile: Switches turn Lights on and off. |
 | Hello | [`apps/hello`](apps/hello) | The first app a group can have as its Home: it says hello, by name. |
+| Hello World: Initiator and Responder | [`apps/hello-world`](apps/hello-world) | The two sides of the `hello.world` Connection Profile, and the worked example of an app on a profile. Start here. |
 | Video call | [`apps/call`](apps/call) | Listed here; built into Pointview. |
 | Google Drive | [`apps/drive`](apps/drive) | Listed here; built into Pointview. |
 | Template | [`apps/template`](apps/template) | A working sample to copy. Not listed in the store. |
@@ -24,6 +25,11 @@ where it finds itself and says hello up to Pointview. The second is
 `labs/room-bulb`, the Boardroom's light: embedded in Zoho's Boardroom page, it
 speaks for the Boardroom app and shows the room's one light, which a Switch in
 the group turns on.
+
+`sdk/pointview.js` is Pointview's app library: `profile()`, `set` and
+`onChange`, for apps whose connections carry values. It's published beside
+the apps, and they load it from there (`../../sdk/pointview.js`).
+[`apps/hello-world`](apps/hello-world) shows it in use.
 
 ## How an app works in Pointview
 
