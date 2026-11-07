@@ -15,12 +15,16 @@
     button { font: inherit; padding: 8px 16px; border: 0; border-radius: 8px; background: var(--ochre); color: #fff; }
     ul { list-style: none; padding: 0; } li { padding: 8px 0; border-bottom: 1px solid var(--line); }
     #problem { color: #b3261e; }
+    .sent, .soft { color: var(--soft); margin: 8px 0; }
+    button:disabled { opacity: .6; }
   </style>
   <script type="module" src="initiator.js"></script>
 </head>
 <body>
   <div class="row"><input id="message" value="Hello world" maxlength="280" aria-label="Message"><button id="send" type="button">Send</button></div>
+  <p id="sent" class="sent"></p>
   <h2>Replies</h2>
+  <p id="none" class="soft">No Responders here yet. When someone opens Hello World: Responder, they show here.</p>
   <ul id="replies"></ul>
   <p id="problem" role="alert"></p>
 </body>

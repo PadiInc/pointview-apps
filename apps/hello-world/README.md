@@ -2,7 +2,7 @@
 
 Two apps, the two sides of one Connection Profile. The **Initiator** says
 hello; the **Responder** answers. Between them they show everything an app
-needs to use CNS/CP in Pointview, in about twenty lines of code each.
+needs to use CNS/CP in Pointview, in a few dozen lines of code each, most of them showing people what is happening.
 
 ## The profile
 
