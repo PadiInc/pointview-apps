@@ -15,13 +15,17 @@
     input { flex: 1; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: inherit; }
     button { font: inherit; padding: 8px 16px; border: 0; border-radius: 8px; background: var(--ochre); color: #fff; }
     #problem { color: #b3261e; }
+    .sent, .soft { color: var(--soft); }
+    .soft { margin: 8px 0; }
+    button:disabled { opacity: .6; }
   </style>
   <script type="module" src="responder.js"></script>
 </head>
 <body>
   <h2>Messages</h2>
+  <p id="none" class="soft">No Initiators here yet. When someone opens Hello World: Initiator, their message shows here.</p>
   <ul id="messages"></ul>
-  <template id="row"><li><div class="from"></div><div class="row"><input maxlength="280" aria-label="Reply"><button type="button">Reply</button></div></li></template>
+  <template id="row"><li><div class="from"></div><div class="sent"></div><div class="row"><input maxlength="280" aria-label="Reply"><button type="button">Reply</button></div></li></template>
   <p id="problem" role="alert"></p>
 </body>
 </html>

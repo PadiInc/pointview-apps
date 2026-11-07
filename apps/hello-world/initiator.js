@@ -3,18 +3,33 @@
 
 import { profile } from '../../sdk/pointview.js';
 
+const $ = (sel) => document.querySelector(sel);
+
 // 1. Take the side the YAML names (provider: the Initiator).
 const hello = profile('hello.world');
 
 // 2. Send the message. `message` propagates, so one set reaches every Responder.
-document.querySelector('#send').addEventListener('click', async () => {
-  await hello.set('message', document.querySelector('#message').value);
+$('#send').addEventListener('click', async () => {
+  $('#send').disabled = true;
+  $('#send').textContent = 'Sending…';
+  try {
+    await hello.set('message', $('#message').value);
+    $('#send').textContent = 'Sent';
+  } catch {
+    $('#send').textContent = 'Not sent, try again';
+  }
+  $('#send').disabled = false;
 });
+$('#message').addEventListener('input', () => { $('#send').textContent = 'Send'; });
 
-// 3. On any change, one row per Responder: its reply, or that there's none yet.
+// 3. On any change: what you last sent, and one row per Responder with its reply.
 hello.onChange((view) => {
-  document.querySelector('#problem').textContent = view.problem ?? '';
-  document.querySelector('#replies').replaceChildren(...(view.connections ?? []).map((c) => {
+  const connections = view.connections ?? [];
+  const sent = connections.find((c) => c.mine.message)?.mine.message;
+  $('#sent').textContent = sent ? `You sent: ${sent}` : 'Nothing sent yet.';
+  $('#none').hidden = connections.length > 0;
+  $('#problem').textContent = view.problem ?? '';
+  $('#replies').replaceChildren(...connections.map((c) => {
     const li = document.createElement('li');
     li.textContent = `${c.peer.name}: ${c.values.response ?? 'no reply yet'}`;
     return li;
