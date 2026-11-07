@@ -52,7 +52,7 @@ test('a built-in entry names where Pointview serves the real YAML', () => {
 test('this repo: every app passes, the template is checked but not listed, and the list says where everything is', async () => {
   const { problems, entries } = await walk(root);
   assert.deepEqual(problems, []);
-  assert.deepEqual(entries.map((e) => e.id), ['io.padi.chess', 'io.padi.drive', 'io.padi.hello', 'io.padi.light', 'io.padi.switch', 'io.padi.call']);
+  assert.deepEqual(entries.map((e) => e.id), ['io.padi.chess', 'io.padi.drive', 'io.padi.hello', 'io.padi.hello-world.initiator', 'io.padi.hello-world.responder', 'io.padi.light', 'io.padi.switch', 'io.padi.call']);
   assert.ok(!entries.some((e) => e.id === 'io.example.counter'), 'the template is not in the store');
   const chess = entries.find((e) => e.id === 'io.padi.chess');
   assert.equal(chess.yaml, 'https://padiinc.github.io/pointview-apps/apps/chess/pointview-app.yaml');
