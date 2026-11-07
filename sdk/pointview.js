@@ -22,6 +22,16 @@
 
 const send = (msg) => window.parent.postMessage({ pv: 1, ...msg }, '*');
 
+/** What Pointview's refusals mean, in plain words for the person using the app; anything else, its code. */
+const WORDS = {
+  other_end_yours: (name) => `You already have the other side of ${name} open in this conversation. Each person takes one side here, so this one can't connect for you.`,
+  needs_active_device: () => 'This device isn\'t set up for your account yet.',
+  conversation_gone: () => 'This conversation is no longer here.',
+  app_gone: () => 'This app was removed from the conversation.',
+  no_values: (name) => `Pointview couldn't find ${name} on the CNS/CP Registry.`,
+};
+const say = (code, name) => WORDS[code]?.(name) ?? `Something went wrong (${code}).`;
+
 let next = 1;
 const waiting = new Map(); // call id -> { resolve, reject }
 const profiles = [];
@@ -60,6 +70,7 @@ export function profile(name) {
   const listeners = new Set();
   let view = null;
   let claimed = null;
+  let refused = null; // why your side couldn't be taken, kept until it can
   let started;
   const taken = new Promise((resolve) => { started = resolve; });
 
@@ -67,15 +78,15 @@ export function profile(name) {
     start() {
       // Declares you as provider or consumer here; Pointview then sends where things stand, and again on each change.
       if (claimed) return;
-      claimed = call('claim').catch((err) => { show({ problem: err.code }); });
+      claimed = call('claim').then(() => { refused = null; }, (err) => { refused = say(err.code, name); show({ problem: refused }); });
       started(claimed);
       send({ type: 'connection' });
     },
     update(c, error) {
-      if (!c) return show({ problem: error ?? 'no_connection' });
+      if (!c) return show({ problem: say(error ?? 'no_connection', name) });
       if (c.profile !== name) return show({ problem: `this app's YAML names ${c.profile}, not ${name}` });
       show({
-        problem: null,
+        problem: refused,
         me: hello?.me ?? null,
         role: c.role,
         connections: (c.links ?? []).map((l) => ({

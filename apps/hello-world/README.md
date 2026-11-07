@@ -82,6 +82,10 @@ date. Add its address as a tile:
 
 ## Try it
 
+Each person takes one side of a profile in a conversation. If you've opened
+the Initiator in a group, your Responder there won't connect, and says so; to
+try both sides yourself, use a second account.
+
 Add both apps to a conversation from the store. Open the Initiator yourself
 and ask someone else to open the Responder, or open the Responder in a second
 browser signed in as someone else in that conversation.
