@@ -73,6 +73,13 @@ before it leaves it. In a two-person conversation that's one hello and one
 reply. In a group, one Initiator hears from every Responder and a Responder
 answers each Initiator on its own, with the same code.
 
+## Showing it to people
+
+`code.html` in this folder shows both scripts side by side, with the CNS/CP
+lines highlighted. It reads the files the apps run, so it never goes out of
+date. Add its address as a tile:
+`https://padiinc.github.io/pointview-apps/apps/hello-world/code.html`
+
 ## Try it
 
 Add both apps to a conversation from the store. Open the Initiator yourself

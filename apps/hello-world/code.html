@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Only this folder's own files. The code is read from initiator.js and responder.js beside this page, so it always shows what runs. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello World Code</title>
+  <style>
+    :root { --ink: #1F1E1C; --soft: #6b665e; --paper: #FAF7F1; --card: #fff; --line: #e5e0d6; --mark: #FCEFB4; --markline: #E2B93B; --num: #b3ada3; }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #EDE9E1; --soft: #a39d92; --paper: #1B1A18; --card: #23211e; --line: #34312c; --mark: #4a3d12; --markline: #C99A2E; --num: #6b665e; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px 48px; font: 16px/1.5 system-ui, sans-serif; color: var(--ink); background: var(--paper); }
+    main { max-width: 1240px; margin: 0 auto; }
+    h1 { font-size: 28px; margin: 0 0 6px; }
+    .lede { color: var(--soft); max-width: 760px; margin: 0 0 24px; }
+    code { font: 14px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+    section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; min-width: 0; }
+    header { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    header h2 { font-size: 17px; margin: 0; }
+    header p { margin: 2px 0 0; color: var(--soft); font-size: 14px; }
+    pre { margin: 0; padding: 10px 0; overflow-x: auto; }
+    .ln { display: block; padding: 0 16px 0 0; white-space: pre; border-left: 4px solid transparent; }
+    .ln::before { content: attr(data-n); display: inline-block; width: 3.2em; padding-right: 1em; text-align: right; color: var(--num); user-select: none; }
+    .ln.key { background: var(--mark); border-left-color: var(--markline); }
+    .ln.note { color: var(--soft); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 20px 0 0; color: var(--soft); font-size: 14px; }
+    .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; background: var(--mark); border-left: 3px solid var(--markline); }
+    .yaml { margin: 0 0 20px; }
+    a { color: inherit; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Hello World on CNS/CP</h1>
+  <p class="lede">Two Pointview apps on the <a href="https://cp.cnscp.io/hello.world">hello.world</a> Connection Profile. The Initiator sends a message to every Responder; each Responder answers one Initiator at a time. The highlighted lines are all the CNS/CP there is. Everything else shows people what's happening.</p>
+
+  <section class="yaml">
+    <header><h2>The YAML ties each app to a side</h2><p>The only place the role appears. The code never names it.</p></header>
+    <pre><code><span class="ln" data-n="">connections:</span><span class="ln key" data-n="">  - profile: "hello.world"</span><span class="ln key" data-n="">    role: provider          # the Responder's says consumer</span></code></pre>
+  </section>
+
+  <div class="pair">
+    <section>
+      <header><h2>Initiator · initiator.js</h2><p>Provider. Its <code>message</code> propagates: one set reaches every Responder.</p></header>
+      <pre><code id="initiator">Loading…</code></pre>
+    </section>
+    <section>
+      <header><h2>Responder · responder.js</h2><p>Consumer. Its <code>response</code> doesn't propagate: it's set on one connection.</p></header>
+      <pre><code id="responder">Loading…</code></pre>
+    </section>
+  </div>
+
+  <p class="legend"><span>CNS/CP: take a side, set on the profile, listen for changes, set on one connection</span> The code is read live from the files the apps run. <a href="https://github.com/PadiInc/pointview-apps/tree/main/apps/hello-world">On GitHub</a></p>
+</main>
+<script>
+  // The calls that are CNS/CP, as the Pointview App Architecture diagram draws them.
+  const KEY = [/\bprofile\('hello\.world'\)/, /\bhello\.set\(/, /\bhello\.onChange\(/, /\bc\.set\(/];
+  async function show(name) {
+    const box = document.getElementById(name);
+    try {
+      const res = await fetch(`${name}.js`, { cache: 'no-cache' });
+      if (!res.ok) throw new Error(res.status);
+      const lines = (await res.text()).replace(/\n$/, '').split('\n');
+      box.replaceChildren(...lines.map((text, i) => {
+        const span = document.createElement('span');
+        span.className = 'ln' + (KEY.some((k) => k.test(text)) ? ' key' : /^\s*\/\//.test(text) ? ' note' : '');
+        span.dataset.n = i + 1;
+        span.textContent = text || ' ';
+        return span;
+      }));
+    } catch {
+      box.textContent = `Couldn't load ${name}.js. It's on GitHub, linked below.`;
+    }
+  }
+  show('initiator');
+  show('responder');
+</script>
+</body>
+</html>
