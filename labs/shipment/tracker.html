@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Only this app's own files, nothing from elsewhere. Keep it. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shipment tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="tracker.js"></script>
+</head>
+<body>
+<main>
+  <h1>Shipment tracker</h1>
+  <p id="sub" class="sub">Opening…</p>
+  <p id="problem" class="problem" role="alert"></p>
+  <p id="storage" class="problem" hidden>This browser isn't keeping this app's records. What the carriers reported will be gone when the page closes.</p>
+  <p id="none" class="soft">No carriers yet. When a carrier in this group opens Carrier status, its shipments show here.</p>
+  <div id="carriers"></div>
+</main>
+</body>
+</html>

@@ -88,7 +88,12 @@ export function profile(name) {
       show({
         problem: refused,
         me: hello?.me ?? null,
+        title: hello?.title ?? null,
         role: c.role,
+        // Whether your side is taken yet; until it is, there are no connections to show.
+        holding: !!c.holding,
+        // 'ok', or 'unreachable' while Pointview can't reach the realm: connections are then unknown, not gone.
+        realm: c.realm ?? 'ok',
         connections: (c.links ?? []).map((l) => ({
           peer: l.person,
           values: l.values,

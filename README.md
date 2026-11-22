@@ -24,7 +24,11 @@ another site's page that Pointview frames (Zoho's Boardroom page), it shows
 where it finds itself and says hello up to Pointview. The second is
 `labs/room-bulb`, the Boardroom's light: embedded in Zoho's Boardroom page, it
 speaks for the Boardroom app and shows the room's one light, which a Switch in
-the group turns on.
+the group turns on. The third is `labs/shipment`, the shipment-status demo:
+two apps on `padi.test.shipment`, Carrier status (`carrier.yaml`) and Shipment
+tracker (`tracker.yaml`). These two do have YAML, so they can be added to a
+group by its address, but being in `labs/` they are not in the store. They ask
+for `frame: own_origin` so each can keep its own records in the browser.
 
 `sdk/pointview.js` is Pointview's app library: `profile()`, `set` and
 `onChange`, for apps whose connections carry values. It's published beside
