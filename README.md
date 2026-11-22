@@ -13,6 +13,7 @@ Pointview as soon as it's merged, without a Pointview release.
 | Light and Switch | [`apps/light`](apps/light) | The two ends of the `padi.light` Connection Profile: Switches turn Lights on and off. |
 | Hello | [`apps/hello`](apps/hello) | The first app a group can have as its Home: it says hello, by name. |
 | Hello World: Initiator and Responder | [`apps/hello-world`](apps/hello-world) | The two sides of the `hello.world` Connection Profile, and the worked example of an app on a profile. Start here. |
+| Carrier status and Shipment tracker | [`apps/shipment`](apps/shipment) | The two sides of the `padi.test.shipment` Connection Profile: carriers report shipment status, a tracker shows it and confirms receipt. They keep their own records in the browser (`frame: own_origin`). |
 | Video call | [`apps/call`](apps/call) | Listed here; built into Pointview. |
 | Google Drive | [`apps/drive`](apps/drive) | Listed here; built into Pointview. |
 | Template | [`apps/template`](apps/template) | A working sample to copy. Not listed in the store. |
@@ -24,11 +25,8 @@ another site's page that Pointview frames (Zoho's Boardroom page), it shows
 where it finds itself and says hello up to Pointview. The second is
 `labs/room-bulb`, the Boardroom's light: embedded in Zoho's Boardroom page, it
 speaks for the Boardroom app and shows the room's one light, which a Switch in
-the group turns on. The third is `labs/shipment`, the shipment-status demo:
-two apps on `padi.test.shipment`, Carrier status (`carrier.yaml`) and Shipment
-tracker (`tracker.yaml`). These two do have YAML, so they can be added to a
-group by its address, but being in `labs/` they are not in the store. They ask
-for `frame: own_origin` so each can keep its own records in the browser.
+the group turns on. `labs/shipment` holds two pages that load the shipment
+apps from `apps/shipment`, for tiles added before those apps were in the store.
 
 `sdk/pointview.js` is Pointview's app library: `profile()`, `set` and
 `onChange`, for apps whose connections carry values. It's published beside

@@ -1,0 +1,24 @@
+# Shipment tracker: the consumer side of padi.test.shipment, the Connection
+# Profile for one party reporting shipment status to another
+# (https://cp.cnscp.io/padi.test.shipment). Add it together with Carrier
+# status (carrier.yaml).
+pointview_app: 1
+id: io.padi.shipment.tracker
+name: "Shipment tracker"
+summary: "Shows the shipments each carrier in this group reports, and confirms receipt"
+about: "The consumer side of padi.test.shipment. It shows one block for each carrier connected in the group, with that carrier's shipments under it, and confirms receipt of a delivered shipment back to that carrier alone. A block appears when a carrier connects, so nothing is set up per carrier; when a carrier leaves or is removed, its block stays, marked as ended. A demo of two organizations exchanging data under one published Connection Profile. Add it together with Carrier status."
+keywords: [shipment, logistics, tracker, cns-cp, connection, demo]
+icon: "tracker-icon.png"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+launch: "https://padiinc.github.io/pointview-apps/apps/shipment/tracker.html"
+fits:
+  people: true
+  groups: true
+# The app keeps each carrier's last reports in this browser, so it needs to be
+# itself (its own storage) rather than a page with no origin.
+frame: own_origin
+connections:
+  - profile: "padi.test.shipment"
+    role: consumer

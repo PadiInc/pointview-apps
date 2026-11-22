@@ -1,8 +1,8 @@
-// The shipment demo's records (labs/shipment/records.js): how each end turns
+// The shipment demo's records (apps/shipment/records.js): how each end turns
 // "what the connection holds now" into what it knows.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { emptyTracker, takeUpdates, awaitingEnd, noteReceipt, emptyCarrier, report, problemWith, takeReceipts, byLatest, ENDED_AFTER_MS } from '../labs/shipment/records.js';
+import { emptyTracker, takeUpdates, awaitingEnd, noteReceipt, emptyCarrier, report, problemWith, takeReceipts, byLatest, ENDED_AFTER_MS } from '../apps/shipment/records.js';
 
 const A = { id: 'a', name: 'Carrier A' };
 const B = { id: 'b', name: 'Carrier B' };
