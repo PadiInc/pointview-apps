@@ -43,15 +43,30 @@ shipments.onChange((v) => {
     if (r.started) for (const s of byLatest(data.shipments).reverse()) enqueue(s.reference);
     if (r.changed) save();
   }
+  if (box && v.holding && v.realm === 'ok' && !v.problem) void declare();
   draw();
   void pump();
 });
 
+/**
+ * This end's values go on the realm as soon as the app opens, whether or not a
+ * tracker is connected yet: the latest shipment again if there is one, or else
+ * the time alone, which says only that the carrier is here. Once per opening.
+ */
+let declared = false;
+async function declare() {
+  if (declared || (view?.connections ?? []).length) return;
+  declared = true;
+  const latest = byLatest(data.shipments)[0];
+  if (latest) { enqueue(latest.reference); return; }
+  try { await shipments.set('reported_at', new Date().toISOString()); } catch { declared = false; }
+}
+
 /** Sends what's waiting, one shipment at a time: its five values, reported_at last. */
 async function pump() {
-  if (sending || !box || !queue.length || !ready().length || Date.now() - failedAt < RETRY_MS) return;
+  if (sending || !box || !view?.holding || !queue.length || Date.now() - failedAt < RETRY_MS) return;
   sending = true;
-  while (queue.length && ready().length) {
+  while (queue.length) {
     const s = data.shipments[queue[0]];
     if (!s) { queue.shift(); continue; }
     try {
@@ -82,7 +97,7 @@ function draw() {
     !box ? 'Opening…'
       : v.realm === 'unreachable' ? 'The realm can\'t be reached just now.'
         : names.length ? `Reporting to ${list(names)}`
-          : 'No tracker is connected yet. What you report is kept here and sent when one connects.',
+          : 'No tracker is connected yet. What you report is kept here and sent again when one connects.',
   ].filter(Boolean).join(' · ');
   $('problem').textContent = v.problem ?? sendProblem;
   $('storage').hidden = !box || box.kept;
@@ -99,7 +114,7 @@ function draw() {
     tr.title = 'Report a change';
     const ref = el('td', 'ref', s.reference);
     if (s.receipt_confirmed) ref.append(el('span', 'receipt', `Receipt confirmed ${when(s.receipt_confirmed)}`));
-    else if (!s.sent) ref.append(el('span', 'waiting', names.length ? 'Sending…' : 'Waiting for a tracker'));
+    else if (!s.sent) ref.append(el('span', 'waiting', 'Sending…'));
     const status = el('td');
     status.append(el('span', `status ${s.status}`, statusWord(s.status)), el('span', 'at', `Reported ${when(s.reported_at)}`));
     tr.append(ref, status, el('td', '', s.location), el('td', '', day(s.estimated_arrival)));

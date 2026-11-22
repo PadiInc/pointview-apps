@@ -7,6 +7,8 @@
 // The profile is padi.test.shipment. The carrier (provider) writes
 //   reference, status, location, estimated_arrival, reported_at
 // in that order, reported_at last: a new reported_at says the update is whole.
+// On opening with nothing to report yet, the carrier writes reported_at alone,
+// so its end has a value on the realm from the start.
 // The logistics team (consumer) writes, on one carrier's connection,
 //   receipt_reference, then receipt_confirmed (a time)
 // and a new receipt_confirmed says the confirmation is whole.
@@ -53,6 +55,9 @@ export function takeUpdates(data, connections, now, realmOk = true) {
     if (c.peer.name && c.peer.name !== 'Someone' && carrier.name !== c.peer.name) { carrier.name = c.peer.name; changed = true; }
     if (carrier.missingSince !== null || carrier.endedAt !== null) { carrier.missingSince = null; carrier.endedAt = null; changed = true; }
     const v = c.values ?? {};
+    // A time with no shipment is the carrier saying it is here (it writes one on opening, before it has
+    // anything to report). It is noted, so the first shipment's own time is what marks that update whole.
+    if (v.reported_at && (!v.reference || !v.status) && carrier.accepted !== v.reported_at) { carrier.accepted = v.reported_at; carrier.acceptedRef = null; changed = true; }
     if (!v.reference || !v.status || !v.reported_at) continue;
     const fresh = v.reported_at !== carrier.accepted;
     // A new reported_at is a new update; the same one for the same shipment may still be filling in.

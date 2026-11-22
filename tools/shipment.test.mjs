@@ -107,3 +107,14 @@ test('carrier: a connection that starts gets everything; a receipt lands on its 
   assert.equal(takeReceipts(d, []).changed, true);
   assert.equal(takeReceipts(d, [conn(T, { receipt_reference: 'S-2', receipt_confirmed: 'r2' })]).started, true);
 });
+
+test('tracker: the time a carrier writes on opening is not taken for its first shipment', () => {
+  const d = emptyTracker();
+  takeUpdates(d, [conn(A, { reported_at: 'open' })], 0);
+  assert.deepEqual(Object.keys(d.carriers.a.shipments), [], 'a block, and nothing in it');
+  // The first shipment starts arriving: reference and status, the time still the opening one.
+  takeUpdates(d, [conn(A, { reference: 'S-1', status: 'picked_up', reported_at: 'open' })], 1);
+  assert.equal(d.carriers.a.shipments['S-1'], undefined);
+  takeUpdates(d, [conn(A, update('S-1', 'picked_up', 't1'))], 2);
+  assert.equal(d.carriers.a.shipments['S-1'].reported_at, 't1');
+});
