@@ -25,7 +25,7 @@
     <header><h2 id="formTitle">New shipment</h2></header>
     <div class="form">
       <label>Shipment reference<input id="fReference" maxlength="60" autocomplete="off"></label>
-      <label>Status<select id="fStatus"></select></label>
+      <div class="field" role="radiogroup" aria-labelledby="fStatusLabel"><span id="fStatusLabel">Status</span><div id="fStatus" class="choices"></div></div>
       <label>Location<input id="fLocation" maxlength="120" autocomplete="off"></label>
       <label>Estimated arrival<input id="fEta" type="date"></label>
       <p id="fProblem" class="problem" role="alert"></p>

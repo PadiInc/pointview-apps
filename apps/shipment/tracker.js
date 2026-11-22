@@ -78,9 +78,11 @@ function block(id, c) {
     const tr = el('tr');
     tr.dataset.reference = s.reference;
     const ref = el('td', 'ref', s.reference);
-    if (s.receipt_confirmed) ref.append(el('span', 'receipt', `Receipt confirmed ${when(s.receipt_confirmed)}`));
     const status = el('td');
-    status.append(el('span', `status ${s.status}`, statusWord(s.status)), el('span', 'at', `${ended ? 'Last reported' : 'Reported'} ${when(s.reported_at)}`));
+    status.append(el('span', `status ${s.status}`, statusWord(s.status)));
+    if (s.receipt_confirmed) status.append(el('span', 'receipt received', 'Received'));
+    status.append(el('span', 'at', `${ended ? 'Last reported' : 'Reported'} ${when(s.reported_at)}`));
+    if (s.receipt_confirmed) status.append(el('span', 'at good', `Receipt confirmed ${when(s.receipt_confirmed)}`));
     const last = el('td', 'act');
     if (!s.receipt_confirmed && s.status === 'delivered' && link) {
       const key = `${id}|${s.reference}`;

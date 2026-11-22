@@ -118,3 +118,14 @@ test('tracker: the time a carrier writes on opening is not taken for its first s
   takeUpdates(d, [conn(A, update('S-1', 'picked_up', 't1'))], 2);
   assert.equal(d.carriers.a.shipments['S-1'].reported_at, 't1');
 });
+
+test('the pages kept at the old address are the store\'s pages, pointing at the store\'s files', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const body = (html) => html.slice(html.indexOf('<body>'));
+  for (const f of ['carrier', 'tracker']) {
+    const now = await readFile(new URL(`../apps/shipment/${f}.html`, import.meta.url), 'utf8');
+    const old = await readFile(new URL(`../labs/shipment/${f}.html`, import.meta.url), 'utf8');
+    assert.equal(body(old), body(now), `${f}.html`);
+    assert.ok(old.includes(`src="../../apps/shipment/${f}.js"`) && old.includes('href="../../apps/shipment/style.css"'));
+  }
+});
