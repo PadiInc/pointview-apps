@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- The app moved to apps/shipment (the store). This page stays for tiles added at the old address: same code, same records. -->
+  <!-- The app moved to apps/shipment (the store). This page stays for tiles added at the old address: same code, same records. Keep its body the same as apps/shipment/carrier.html. -->
   <!-- Only this app's own files, nothing from elsewhere. Keep it. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +26,7 @@
     <header><h2 id="formTitle">New shipment</h2></header>
     <div class="form">
       <label>Shipment reference<input id="fReference" maxlength="60" autocomplete="off"></label>
-      <label>Status<select id="fStatus"></select></label>
+      <div class="field" role="radiogroup" aria-labelledby="fStatusLabel"><span id="fStatusLabel">Status</span><div id="fStatus" class="choices"></div></div>
       <label>Location<input id="fLocation" maxlength="120" autocomplete="off"></label>
       <label>Estimated arrival<input id="fEta" type="date"></label>
       <p id="fProblem" class="problem" role="alert"></p>

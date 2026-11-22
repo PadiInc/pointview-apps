@@ -24,7 +24,21 @@ let failedAt = 0;
 let sendProblem = '';
 let editing = null; // null, 'new', or a reference
 
-for (const [value, word] of STATUSES) $('fStatus').append(new Option(word, value));
+// The status: one choice of four, each a button-sized label, so it is one click and plain what they are.
+for (const [value, word] of STATUSES) {
+  const input = el('input');
+  input.type = 'radio';
+  input.name = 'fStatus';
+  input.value = value;
+  const label = el('label', `choice ${value}`);
+  label.append(input, el('span', '', word));
+  $('fStatus').append(label);
+}
+const statusChosen = () => document.querySelector('input[name=fStatus]:checked')?.value ?? '';
+const chooseStatus = (value) => { for (const i of document.querySelectorAll('input[name=fStatus]')) i.checked = i.value === value; };
+/** Receipts already shown on this page, so a new one is marked as it arrives, once. */
+const receiptsShown = new Set();
+let firstDraw = true;
 
 const ready = () => (view?.connections ?? []).filter((c) => c.state === 'ready');
 const save = () => box?.save(data);
@@ -113,15 +127,24 @@ function draw() {
     tr.tabIndex = 0;
     tr.title = 'Report a change';
     const ref = el('td', 'ref', s.reference);
-    if (s.receipt_confirmed) ref.append(el('span', 'receipt', `Receipt confirmed ${when(s.receipt_confirmed)}`));
-    else if (!s.sent) ref.append(el('span', 'waiting', 'Sending…'));
+    if (!s.sent && !s.receipt_confirmed) ref.append(el('span', 'waiting', 'Sending…'));
     const status = el('td');
-    status.append(el('span', `status ${s.status}`, statusWord(s.status)), el('span', 'at', `Reported ${when(s.reported_at)}`));
+    status.append(el('span', `status ${s.status}`, statusWord(s.status)));
+    if (s.receipt_confirmed) {
+      // The loop closing: the other end has confirmed receipt. Marked once as it arrives.
+      const fresh = !firstDraw && !receiptsShown.has(s.reference);
+      receiptsShown.add(s.reference);
+      status.append(el('span', 'receipt received' + (fresh ? ' fresh' : ''), 'Received'));
+      status.append(el('span', 'at', `Reported ${when(s.reported_at)}`), el('span', 'at good', `Receipt confirmed ${when(s.receipt_confirmed)}`));
+    } else {
+      status.append(el('span', 'at', `Reported ${when(s.reported_at)}`));
+    }
     tr.append(ref, status, el('td', '', s.location), el('td', '', day(s.estimated_arrival)));
     tr.addEventListener('click', () => open(s.reference));
     tr.addEventListener('keydown', (e) => { if (e.key === 'Enter') open(s.reference); });
     return tr;
   }));
+  if (box) firstDraw = false;
 }
 
 const list = (names) => (names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`);
@@ -133,12 +156,14 @@ function open(reference) {
   $('formTitle').textContent = s ? `Report a change: ${s.reference}` : 'New shipment';
   $('fReference').value = s?.reference ?? '';
   $('fReference').readOnly = !!s;
-  $('fStatus').value = s?.status ?? 'picked_up';
-  $('fLocation').value = s?.location ?? '';
+  chooseStatus(s?.status ?? 'picked_up');
+  // A change keeps the shipment's own location and estimate, so only what changed is touched. A new
+  // shipment starts at the place this carrier last reported from; its estimate is given once, here.
+  $('fLocation').value = s?.location ?? byLatest(data.shipments)[0]?.location ?? '';
   $('fEta').value = s?.estimated_arrival ?? '';
   $('fProblem').textContent = '';
   $('formCard').hidden = false;
-  (s ? $('fStatus') : $('fReference')).focus();
+  (s ? document.querySelector('input[name=fStatus]:checked') : $('fReference'))?.focus();
 }
 
 function close() {
@@ -148,7 +173,7 @@ function close() {
 
 function send() {
   if (!box) return;
-  const fields = { reference: $('fReference').value, status: $('fStatus').value, location: $('fLocation').value, estimated_arrival: $('fEta').value };
+  const fields = { reference: $('fReference').value, status: statusChosen(), location: $('fLocation').value, estimated_arrival: $('fEta').value };
   let problem = problemWith(fields);
   if (!problem && editing === 'new' && data.shipments[fields.reference.trim()]) problem = 'That reference is already in your list. Pick it from the list to report a change.';
   $('fProblem').textContent = problem;
