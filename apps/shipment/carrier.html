@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Only this app's own files, nothing from elsewhere. Keep it. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrier status</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="carrier.js"></script>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <h1>Carrier status</h1>
+      <p id="sub" class="sub">Opening…</p>
+    </div>
+    <button id="add" type="button">Add a shipment</button>
+  </div>
+  <p id="problem" class="problem" role="alert"></p>
+  <p id="storage" class="problem" hidden>This browser isn't keeping this app's records. Your shipment list will be gone when the page closes.</p>
+
+  <section id="formCard" class="card" hidden>
+    <header><h2 id="formTitle">New shipment</h2></header>
+    <div class="form">
+      <label>Shipment reference<input id="fReference" maxlength="60" autocomplete="off"></label>
+      <label>Status<select id="fStatus"></select></label>
+      <label>Location<input id="fLocation" maxlength="120" autocomplete="off"></label>
+      <label>Estimated arrival<input id="fEta" type="date"></label>
+      <p id="fProblem" class="problem" role="alert"></p>
+      <div class="buttons"><button id="fSend" type="button">Report update</button><button id="fCancel" class="quiet" type="button">Cancel</button></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <header><h2>Shipments on this contract</h2><button id="resend" class="quiet" type="button" hidden>Send all again</button></header>
+    <p id="none" class="soft pad">No shipments yet. Add one to report its status.</p>
+    <table id="table" hidden>
+      <thead><tr><th>Reference</th><th>Status</th><th>Location</th><th>Estimated arrival</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>
