@@ -1,0 +1,23 @@
+# Shipment tracker: the consumer side of padi.test.shipment, the Connection
+# Profile for one party reporting shipment status to another. A demo app, kept
+# in labs/ so it is published but not listed in the store. Add it to a group by
+# this file's address:
+#   https://padiinc.github.io/pointview-apps/labs/shipment/tracker.yaml
+# together with Carrier status (carrier.yaml).
+pointview_app: 1
+id: io.padi.shipment.tracker
+name: "Shipment tracker"
+summary: "Shows the shipments each carrier in this group reports, and confirms receipt"
+publisher:
+  name: "Padi"
+  contact: "support@padi.io"
+launch: "https://padiinc.github.io/pointview-apps/labs/shipment/tracker.html"
+fits:
+  people: true
+  groups: true
+# The app keeps each carrier's last reports in this browser, so it needs to be
+# itself (its own storage) rather than a page with no origin.
+frame: own_origin
+connections:
+  - profile: "padi.test.shipment"
+    role: consumer
