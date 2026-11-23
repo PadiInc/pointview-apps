@@ -68,3 +68,6 @@ tr.pick:hover td { background: color-mix(in srgb, var(--ochre) 7%, transparent);
 .form .problem { grid-column: 1 / -1; margin: 0; }
 @media (max-width: 560px) { .form { grid-template-columns: 1fr; } }
 .pad { padding: 4px 16px; }
+.fold-line { margin: 0; border-top: 1px solid var(--line); padding-top: 8px; padding-bottom: 8px; }
+button.fold { background: none; color: var(--soft); padding: 2px 0; text-decoration: underline; font-size: 14px; }
+button.fold:hover { color: var(--ink); }

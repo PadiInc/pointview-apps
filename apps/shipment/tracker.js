@@ -18,6 +18,9 @@ let data = emptyTracker();
 let view = null;
 let again = null; // the timer that looks again at a carrier that went missing
 const confirming = new Map(); // "<carrier>|<reference>" -> 'Confirming…' or 'Not sent, try again'
+// Received shipments are folded away under each carrier, so the list stays the open ones.
+const showingReceived = new Set(); // carriers whose received shipments are unfolded
+const justConfirmed = new Set(); // "<carrier>|<reference>" confirmed on this page: left in view, so the click's result is seen
 
 shipments.onChange((v) => {
   view = v;
@@ -67,6 +70,24 @@ function block(id, c) {
     card.append(el('p', 'soft pad', ended ? 'Nothing was reported.' : 'Connected. Nothing reported yet.'));
     return card;
   }
+  const folded = all.filter((s) => s.receipt_confirmed && !justConfirmed.has(`${id}|${s.reference}`));
+  const unfolded = showingReceived.has(id);
+  const shown = unfolded ? all : all.filter((s) => !folded.includes(s));
+  // The received ones, counted, behind one link.
+  const fold = () => {
+    if (!folded.length) return null;
+    const b = el('button', 'fold', unfolded ? 'Hide received' : `Show ${folded.length} received`);
+    b.type = 'button';
+    b.setAttribute('aria-expanded', String(unfolded));
+    b.addEventListener('click', () => { if (unfolded) showingReceived.delete(id); else showingReceived.add(id); draw(); });
+    const p = el('p', 'pad fold-line');
+    p.append(b);
+    return p;
+  };
+  if (!shown.length) {
+    card.append(el('p', 'soft pad', 'No open shipments.'), fold());
+    return card;
+  }
   const table = el('table');
   const hr = el('tr');
   for (const word of ['Reference', 'Status', 'Location', 'Estimated arrival', '']) hr.append(el('th', '', word));
@@ -74,7 +95,7 @@ function block(id, c) {
   thead.append(hr);
   const body = el('tbody');
   const link = (view?.connections ?? []).find((x) => x.peer?.id === id && x.state === 'ready');
-  for (const s of all) {
+  for (const s of shown) {
     const tr = el('tr');
     tr.dataset.reference = s.reference;
     const ref = el('td', 'ref', s.reference);
@@ -97,6 +118,8 @@ function block(id, c) {
   }
   table.append(thead, body);
   card.append(table);
+  const line = fold();
+  if (line) card.append(line);
   return card;
 }
 
@@ -109,6 +132,7 @@ async function confirm(carrierId, reference, link) {
     const time = new Date().toISOString();
     await link.set('receipt_reference', reference);
     await link.set('receipt_confirmed', time);
+    justConfirmed.add(key);
     noteReceipt(data, carrierId, reference, time);
     box.save(data);
     confirming.delete(key);
