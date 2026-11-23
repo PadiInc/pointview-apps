@@ -39,6 +39,10 @@ const chooseStatus = (value) => { for (const i of document.querySelectorAll('inp
 /** Receipts already shown on this page, so a new one is marked as it arrives, once. */
 const receiptsShown = new Set();
 let firstDraw = true;
+// Received shipments are folded away, so the list stays the open ones. One whose receipt arrives while
+// this page is open is left in view, so the moment is seen.
+let showingReceived = false;
+const arrivedHere = new Set();
 
 const ready = () => (view?.connections ?? []).filter((c) => c.state === 'ready');
 const save = () => box?.save(data);
@@ -118,10 +122,23 @@ function draw() {
 
   const all = byLatest(data.shipments);
   $('none').hidden = all.length > 0;
-  $('table').hidden = all.length === 0;
   $('resend').hidden = all.length === 0 || !names.length;
   $('resend').disabled = sending || queue.length > 0;
-  $('rows').replaceChildren(...all.map((s) => {
+  // Which receipts are new to this page: marked as they arrive, once, and left in view.
+  const fresh = new Set();
+  for (const s of all) {
+    if (!s.receipt_confirmed || receiptsShown.has(s.reference)) continue;
+    receiptsShown.add(s.reference);
+    if (!firstDraw) { fresh.add(s.reference); arrivedHere.add(s.reference); }
+  }
+  const folded = all.filter((s) => s.receipt_confirmed && !arrivedHere.has(s.reference));
+  const shown = showingReceived ? all : all.filter((s) => !folded.includes(s));
+  $('table').hidden = shown.length === 0;
+  $('noneOpen').hidden = !(all.length > 0 && shown.length === 0);
+  $('foldLine').hidden = folded.length === 0;
+  $('fold').textContent = showingReceived ? 'Hide received' : `Show ${folded.length} received`;
+  $('fold').setAttribute('aria-expanded', String(showingReceived));
+  $('rows').replaceChildren(...shown.map((s) => {
     const tr = el('tr', 'pick');
     tr.dataset.reference = s.reference;
     tr.tabIndex = 0;
@@ -131,10 +148,8 @@ function draw() {
     const status = el('td');
     status.append(el('span', `status ${s.status}`, statusWord(s.status)));
     if (s.receipt_confirmed) {
-      // The loop closing: the other end has confirmed receipt. Marked once as it arrives.
-      const fresh = !firstDraw && !receiptsShown.has(s.reference);
-      receiptsShown.add(s.reference);
-      status.append(el('span', 'receipt received' + (fresh ? ' fresh' : ''), 'Received'));
+      // The loop closing: the other end has confirmed receipt.
+      status.append(el('span', 'receipt received' + (fresh.has(s.reference) ? ' fresh' : ''), 'Received'));
       status.append(el('span', 'at', `Reported ${when(s.reported_at)}`), el('span', 'at good', `Receipt confirmed ${when(s.receipt_confirmed)}`));
     } else {
       status.append(el('span', 'at', `Reported ${when(s.reported_at)}`));
@@ -187,6 +202,7 @@ function send() {
 }
 
 $('add').addEventListener('click', () => open(null));
+$('fold').addEventListener('click', () => { showingReceived = !showingReceived; draw(); });
 $('fCancel').addEventListener('click', close);
 $('fSend').addEventListener('click', send);
 for (const id of ['fReference', 'fLocation', 'fEta']) $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
